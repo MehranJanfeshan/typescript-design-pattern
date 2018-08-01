@@ -1,19 +1,19 @@
 interface Subject {
-  registerObserver(o: Observer): void
+  registerObserver(o: ObserverPattern): void
 
-  removeObserver(o: Observer): void
+  removeObserver(o: ObserverPattern): void
 
   notifyObservers(): void
 }
 
-interface Observer {
+interface ObserverPattern {
   update(temperature: number): void
 
 }
 
 class WeatherStation implements Subject {
   private temperature: number
-  private observers: Observer[] = []
+  private observers: ObserverPattern[] = []
 
   public setTemperature(temp: number) {
     console.log('weatherStation: new temperature measurement: ' + temp)
@@ -21,11 +21,11 @@ class WeatherStation implements Subject {
     this.notifyObservers()
   }
 
-  public registerObserver(o: Observer) {
+  public registerObserver(o: ObserverPattern) {
     this.observers.push(o)
   }
 
-  public removeObserver(o: Observer) {
+  public removeObserver(o: ObserverPattern) {
     let index = this.observers.lastIndexOf(o)
     this.observers.splice(index, 1)
   }
@@ -38,7 +38,7 @@ class WeatherStation implements Subject {
 }
 
 
-class TemperatureDisplay implements Observer {
+class TemperatureDisplay implements ObserverPattern {
   private subject: Subject
 
   constructor(weatherStation: Subject) {
@@ -51,7 +51,7 @@ class TemperatureDisplay implements Observer {
   }
 }
 
-class Fan implements Observer {
+class Fan implements ObserverPattern {
   private subject: Subject
 
   constructor(weatherStation: Subject) {
